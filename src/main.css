@@ -1,0 +1,55 @@
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+#metric-table-container {
+	padding: 20px;
+	margin: 20px;
+}
+
+#spectra-viewer-container {
+	width: 100vw;
+	height: 75vh;
+}
+
+#spectra-viewer {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+#fhi-button-container {
+	padding: 20px;
+	margin: 20px;
+}
+
+.feature-button {
+	padding: 10px;
+	margin: 10px;
+}
+
+.dt-body-center{
+  text-align: center;
+}
+
+.dt-head-center{
+  text-align: center;
+}
+
+table.dataTable td.dt-type-numeric {
+	text-align: center;
+}
+
+table.dataTable thead td {
+	text-align: center;
+}
+
+table.dataTable>thead>tr>td {
+	border-right: 1px solid rgba(0, 0, 0, 0.3);
+	border-left: 1px solid rgba(0, 0, 0, 0.3);
+}
