@@ -33,6 +33,29 @@ html, body {
 	margin: 10px;
 }
 
+#insp-button-container {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+}
+
+.insp-button {
+	padding: 20px;
+	margin: 20px;
+}
+
+#insp-no-button {
+	background: #ff6d60;
+}
+
+#insp-unclear-button {
+	background: #f7d060;
+}
+
+#insp-yes-button {
+	background: #98d8aa;
+}
+
 .dt-body-center{
   text-align: center;
 }

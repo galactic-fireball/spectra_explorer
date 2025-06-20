@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+	<div id="spectra-viewer-container">
+		<div id="feature-header">Current Feature: [None]</div>
+		<div id="spectra-viewer"></div>
+	</div>
+	<div id="fhi-button-container"></div>
+	<div id="insp-button-container"><button id="save-button" class="insp-button">Save</button><button id="insp-no-button" class="insp-button">No</button><button id="insp-unclear-button" class="insp-button">Unclear</button><button id="insp-yes-button" class="insp-button">Yes</button></div>
+	<div id="metric-table-container"><table id="metric-table" class="display dt-head-center dt-body-center cell-border" width="100%"></table></div>
+{% endblock %}

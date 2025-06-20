@@ -1,0 +1,10 @@
+src/static/data/spec_data/
+src/static/data/target_metrics.csv
+src/static/data/target_metrics_test.csv
+
+utils/
+venv/
+
+*.pyc
+__pycache__/
+
