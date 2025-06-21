@@ -1,10 +1,91 @@
 {% extends "base.html" %}
 {% block content %}
+	<div id="feature-header">Current Feature: [None]</div>
 	<div id="spectra-viewer-container">
-		<div id="feature-header">Current Feature: [None]</div>
 		<div id="spectra-viewer"></div>
 	</div>
-	<div id="fhi-button-container"></div>
-	<div id="insp-button-container"><button id="save-button" class="insp-button">Save</button><button id="insp-no-button" class="insp-button">No</button><button id="insp-unclear-button" class="insp-button">Unclear</button><button id="insp-yes-button" class="insp-button">Yes</button></div>
-	<div id="metric-table-container"><table id="metric-table" class="display dt-head-center dt-body-center cell-border" width="100%"></table></div>
+
+	<!-- SPEC METRIC ROW -->
+
+	<div id="config-container">
+
+		<fieldset id="filter-container">
+			<legend>Filters:</legend>
+
+			<div id="metric-range-container">
+				<div id="metric-label-container" class="flex-col pad5"></div>
+				<div id="metric-min-container" class="flex-col pad5"></div>
+				<div id="metric-max-container" class="flex-col pad5"></div>
+			</div>
+
+			<fieldset id="inspect-filter">
+				<div>
+					<input type="checkbox" id="insp-check" checked/>
+					<label for="insp-check">Inspected</label>
+				</div>
+				<div>
+					<input type="checkbox" id="not-insp-check" checked/>
+					<label for="not-insp-check">Not Inspected</label>
+				</div>
+				<div>
+					<input type="checkbox" id="detect-check" checked/>
+					<label for="detect-check">Detections</label>
+				</div>
+				<div>
+					<input type="checkbox" id="non-detect-check" checked/>
+					<label for="non-detect-check">Nondetections</label>
+				</div>
+				<div>
+					<input type="checkbox" id="unclear-check" checked/>
+					<label for="unclear-check">Unclear</label>
+				</div>
+			</fieldset>
+
+			<div id="filter-button-container">
+				<button id="filter-button" class="insp-button">Filter</button>
+			</div>
+
+		</fieldset>
+
+		<fieldset id="stats-container" class="flex-col">
+			<div class="flex">
+				<label for="stat-total">Total:</label>
+				<span id="stat-total"></span>
+			</div>
+			<div class="flex">
+				<label for="stat-inspected">Inspected:</label>
+				<span id="stat-inspected"></span>
+			</div>
+			<div class="flex">
+				<label for="stat-uninspected">Uninspected:</label>
+				<span id="stat-uninspected"></span>
+			</div>
+			<div class="flex">
+				<label for="stat-detects">Detections:</label>
+				<span id="stat-detects"></span>
+			</div>
+		</fieldset>
+
+		<div id="wave-range-container">
+			<div class="flex-col">
+				<label for="wave-min">WAVE MIN</label>
+				<input id="wave-min" class="text-input"/>
+			</div>
+			<div class="flex-col">
+				<label for="wave-max">WAVE MAX</label>
+				<input id="wave-max" class="text-input"/>
+			</div>
+		</div>
+	</div>
+
+	<div id="insp-button-container">
+		<button id="model-button" class="insp-button">Model</button>
+		<button id="save-button" class="insp-button">Save</button>
+		<button id="insp-no-button" class="insp-button">No</button>
+		<button id="insp-unclear-button" class="insp-button">Unclear</button>
+		<button id="insp-yes-button" class="insp-button">Yes</button>
+	</div>
+	<div id="metric-table-container">
+		<table id="metric-table" class="display dt-head-center dt-body-center cell-border" width="100%"></table>
+	</div>
 {% endblock %}

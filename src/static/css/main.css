@@ -1,3 +1,13 @@
+:root {
+	--tiber: #173d3c;
+	--dark-charcoal: #35322d;
+}
+
+@font-face {
+	font-family: inter18;
+	src: url(../fonts/Inter_18pt-Medium.ttf);
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -5,6 +15,28 @@
 html, body {
 	margin: 0;
 	padding: 0;
+	font-family: inter18;
+}
+
+.flex {
+	display: flex;
+	gap: 10px;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
+.pad5 {
+	padding: 5px;
+}
+
+#feature-header {
+	margin: 10px 0px;
+	padding: 10px 0px;
+	justify-self: center;
+	color: var(--dark-charcoal);
 }
 
 #metric-table-container {
@@ -14,34 +46,128 @@ html, body {
 
 #spectra-viewer-container {
 	width: 100vw;
-	height: 75vh;
+	height: 60vh;
 }
 
 #spectra-viewer {
 	width: 100%;
 	height: 100%;
 	margin: 0;
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
-#fhi-button-container {
-	padding: 20px;
-	margin: 20px;
-}
-
-.feature-button {
+#config-container {
+	display: flex;
+	width: 96vw;
+	justify-self: center;
+	justify-content: space-evenly;
+	align-items: center;
+	gap: 20px;
+	margin-top: 20px;
 	padding: 10px;
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+#filter-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 50%;
+}
+
+#metric-range-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr;
+}
+
+#inspect-filter {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: right;
+}
+
+#filter-button {
+	background: #3182bd;
 	margin: 10px;
+}
+
+.text-input {
+	box-shadow: inset #abacaf 0 0 0 2px;
+	border: 0;
+	background: rgba(0, 0, 0, 0);
+	appearance: none;
+	/*width: 100%;*/
+	position: relative;
+	border-radius: 3px;
+	padding: 9px 12px;
+	line-height: 1.4;
+	color: rgb(0, 0, 0);
+	font-size: 12px;
+	font-weight: 400;
+	height: 20px;
+	transition: all .2s ease;
+}
+
+.text-input:hover{
+	box-shadow: 0 0 0 0 #fff inset, var(--tiber) 0 0 0 2px;
+}
+
+.text-input:focus{
+	background: #fff;
+	outline: 0;
+	box-shadow: 0 0 0 0 #fff inset, var(--tiber) 0 0 0 3px;
 }
 
 #insp-button-container {
 	display: flex;
 	justify-content: center;
 	gap: 20px;
+	margin-top: 10px;
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 .insp-button {
 	padding: 20px;
 	margin: 20px;
+	border-radius: 11px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-family: Mija,-apple-system,BlinkMacSystemFont,Roboto,"Roboto Slab","Droid Serif","Segoe UI",system-ui,Arial,sans-serif;
+  font-size: 1.15em;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 33.4929px;
+  padding: .8em 1em;
+  text-align: center;
+  text-decoration: none;
+  text-decoration-skip-ink: auto;
+  text-shadow: rgba(0, 0, 0, .3) 1px 1px 1px;
+  text-underline-offset: 1px;
+  transition: all .2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  word-break: break-word;
+  border: 0;
+}
+
+.insp-button:active,
+.insp-button:focus {
+  border-bottom-style: none;
+  border-color: #dadada;
+  box-shadow: rgba(0, 0, 0, .3) 0 3px 3px inset;
+  outline: 0;
+}
+
+.insp-button:hover {
+  border-bottom-style: none;
+  border-color: #dadada;
 }
 
 #insp-no-button {
@@ -54,6 +180,14 @@ html, body {
 
 #insp-yes-button {
 	background: #98d8aa;
+}
+
+#save-button {
+	background: #a6bddb;
+}
+
+#model-button {
+	background: #756bb1;
 }
 
 .dt-body-center{
@@ -76,3 +210,14 @@ table.dataTable>thead>tr>td {
 	border-right: 1px solid rgba(0, 0, 0, 0.3);
 	border-left: 1px solid rgba(0, 0, 0, 0.3);
 }
+
+
+
+
+
+
+
+                
+
+
+
