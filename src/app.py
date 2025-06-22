@@ -49,11 +49,6 @@ def get_metrics():
 
 @app.route('/api/specs')
 def get_specs():
-	print('get_specs')
-	print(request)
-	print(request.args)
-	print(len(request.args))
-
 	if (len(request.args) == 0) or not (request.args.get('feature', None)):
 		return jsonify({'specs':list(CACHE['tdf']['P-M-F'].values)}), 200, json_cont
 
@@ -69,9 +64,9 @@ def get_specs():
 		print('Filtering %s'%filt)
 
 		if filt == 'inspected':
-			return df[np.nan(rdf[insp_attr])]
+			return df[np.isnan(rdf[insp_attr])]
 		if filt == 'not_inspected':
-			return df[~np.nan(rdf[insp_attr])]
+			return df[~np.isnan(rdf[insp_attr])]
 		if filt == 'detections':
 			return df[rdf[insp_attr] != 1.0]
 		if filt == 'non_detections':
@@ -85,7 +80,7 @@ def get_specs():
 
 		print(filt)
 		if filt in ['inspected', 'not_inspected', 'detections', 'non_detections', 'unclear']:
-			rdf = filter_insp_status(rdf, filt, val)
+			rdf = filter_insp_status(rdf, filt, val == 'true')
 			print('rdf: %d -> %d'%(cprev,len(rdf)))
 			continue
 
@@ -130,7 +125,7 @@ def get_specs():
 		'detections': detects
 	}
 
-	# print(stats)
+	print(stats)
 	return jsonify({'specs':specs,'stats':stats}), 200, json_cont
 
 
@@ -141,7 +136,7 @@ def get_spec():
 
 	spec_file = spec_dir.joinpath(feature, spec_name+'.npz')
 	if not spec_file.exists():
-		return {} # TODO: 404
+		return jsonify({'data':False}), 404, json_cont
 
 	# ['wave', 'data', 'ncomp0', 'ncomp1', 'ANOVA', 'AON', 'BADASS', 'CHI2_RATIO', 'F_RATIO', 'SSR_RATIO']
 	npz = np.load(spec_file)
@@ -158,6 +153,13 @@ def get_spec():
 			continue
 
 		spec_dict[key] = round(float(npz[key]),5)
+
+	insp_attr = feature+'_INSPECT'
+	tdf = CACHE['tdf']
+	if insp_attr in tdf:
+		ival = tdf[tdf['P-M-F'] == spec_name][insp_attr].values[0]
+		if not np.isnan(ival):
+			spec_dict['detect'] = ival;
 
 	return jsonify(spec_dict), 200, json_cont
 

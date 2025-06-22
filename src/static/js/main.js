@@ -56,12 +56,32 @@ function print(msg) {
 }
 
 
+function objectEmpty(obj) {
+    return Object.keys(obj).length === 0
+}
+
+
+const nodata_layout = {
+    annotations: [{text: 'No Data', font:{size:30}, xref: 'paper', x:0.5,
+    yref: 'paper', y:0.5, showarrow:false}],
+};
+
 function initPlotViewer() {
-    Plotly.newPlot(viewerID, [{x:[],y:[]}]);
+    Plotly.newPlot(viewerID, [{x:[],y:[]}], nodata_layout);
+}
+
+
+function setNoDataPlot() {
+    Plotly.react(viewerID, [{x:[],y:[]}], nodata_layout);
 }
 
 
 function generatePlot() {
+
+    if (objectEmpty(targetSpecInfo)) {
+        setNoDataPlot();
+        return;
+    }
 
     var data_trace = {
         x: targetSpecInfo.wave,
@@ -146,8 +166,14 @@ async function setTargetInfo(specName) {
 
     try {
         let response = await fetch(specURL + new URLSearchParams(get_data).toString());
-        targetSpecInfo = await response.json();
-        targetSpecInfo['name'] = specName;
+        if (response.ok) {
+            targetSpecInfo = await response.json();
+            targetSpecInfo['name'] = specName;
+            genMetricDisplay();
+        } else {
+            targetSpecInfo = {}
+            genMetricDisplay();
+        }
     } catch(error) {
         console.log('Fetch error: ' + error);
     }
@@ -184,6 +210,55 @@ async function getSpecNames() {
 }
 
 
+function genMetricDisplay() {
+    const display = document.getElementById('metric-display');
+    display.replaceChildren(); // remove children
+
+    for (const m of metrics) {
+        let div = document.createElement('div');
+        div.classList.add('metric-div');
+        let l = document.createElement('label');
+        l.textContent = m+':';
+        div.appendChild(l);
+
+        let v = document.createElement('span');
+        v.classList.add('metric-value');
+        if (m in targetSpecInfo) { v.textContent = targetSpecInfo[m]; }
+        else { v.textContent = '--'; }
+        div.appendChild(v);
+        display.appendChild(div);
+    }
+
+    let div = document.createElement('div');
+        div.classList.add('metric-div');
+        let l = document.createElement('label');
+        l.textContent = 'Detect:';
+        div.appendChild(l);
+
+        let v = document.createElement('span');
+        v.classList.add('metric-value');
+
+    if ('detect' in targetSpecInfo) {
+        switch (parseFloat(targetSpecInfo['detect'])) {
+            case -1.0:
+                v.textContent = 'No';
+                break;
+            case 0.0:
+                v.textContent = 'Unclear';
+                break;
+            case 1.0:
+                v.textContent = 'Yes';
+                break;
+            default:
+                v.textContent = '--';
+        }
+    } else { v.textContent = '--'; }
+
+    div.appendChild(v);
+    display.appendChild(div);
+}
+
+
 function markInspect(val) {
     let post_data = {
         'spec': specNames[curSpecIdx],
@@ -204,12 +279,20 @@ function markInspect(val) {
 }
 
 function prevSpec() {
+    if (curSpecIdx == 0) {
+        return;
+    }
+
     curSpecIdx--;
     plotSpec();
 }
 
 
 function nextSpec() {
+    if (curSpecIdx >= specNames.length-1) {
+        return;
+    }
+
     curSpecIdx++;
     plotSpec();
 }
@@ -271,7 +354,7 @@ function initInspectButtons() {
             yes_click();
         } else if (e.key === 'n' || e.key === 'q') {
             no_click();
-        } else if (e.key === 'u' || e.key === 'r') {
+        } else if (e.key === 'u') {
             unclear_click();
         } else if (e.key === 's') {
             save_click();
@@ -293,8 +376,8 @@ function initMetricFilters() {
     const maxContainer = document.getElementById('metric-max-container');
 
     for (const m of metrics) {
-        let l = document.createElement('label')
-        l.innerHTML = m
+        let l = document.createElement('label');
+        l.textContent = m;
         labelContainer.appendChild(l);
 
         let mmin = document.createElement('input');
@@ -372,6 +455,7 @@ function initFilter() {
 
             console.log(statDict);
             genStatTable();
+            curSpecIdx = 0;
             await plotSpec();
 
         } catch(error) {
@@ -403,6 +487,11 @@ function initConfigPanel() {
 
 
 async function plotSpec() {
+    if (curSpecIdx > specNames.length) {
+        setNoDataPlot();
+        return;
+    }
+
     specName = specNames[curSpecIdx];
     await setTargetInfo(specName);
     generatePlot();
@@ -413,6 +502,7 @@ async function start() {
     console.log('start');
     initPlotViewer();
     await getMetricData();
+    genMetricDisplay();
     initConfigPanel();
     initInspectButtons();
     await getFeatureData();
